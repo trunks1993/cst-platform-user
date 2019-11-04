@@ -14,7 +14,7 @@ export default () => (
     <Switch>
       <AuthRoute exact path="/login" authTo="/" component={LoginPage} />
       <AuthRoute path="/platForm" authTo="/login" component={Layout} />
-      <Redirect exact from="/" to='/platForm/home' />
+      <Redirect exact from="/" to="/platForm/home" />
       <Route component={Page404} />
     </Switch>
   </HashRouter>

@@ -3,13 +3,9 @@ import { Form, Icon, Input, Button } from 'antd';
 import { connect } from 'react-redux';
 import { actions as userActions } from '@/redux/user';
 import { createHashHistory } from 'history';
-import md5 from 'js-md5';
 const history = createHashHistory();
 
 const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDecorator, validateFields } }) => {
-  const [username, setUsername] = useState('');
-  const [passwordCopy, setPasswordCopy] = useState('');
-  const [password, setPassword] = useState('');
 
   const formItemLayout = {
     // labelCol: { span: 8 },
@@ -33,8 +29,6 @@ const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDe
             })(<Input
               prefix={<Icon type="user" style={{ color: '#79A8E0' }} />}
               placeholder="用户名"
-              onChange={e => setUsername(e.target.value)}
-              value={username}
             />)}
           </Form.Item>
           <Form.Item {...formItemLayout}>
@@ -49,18 +43,13 @@ const LoginPage = Form.create({})(({ handleLogin, isFetching, form: { getFieldDe
               prefix={<Icon type="lock" style={{ color: '#79A8E0' }} />}
               type="password"
               placeholder="密码"
-              value={passwordCopy}
-              onChange={e => {
-                setPasswordCopy(e.target.value);
-                setPassword(e.target.value);
-              }}
             />)}
           </Form.Item>
           <Form.Item {...formItemLayout}>
             <Button type="primary" onClick={() => {
-              validateFields(err => {
+              validateFields((err, value) => {
                 if (!err) {
-                  handleLogin(username, md5(password)).then(() => history.push('/'));
+                  handleLogin(value).then(() => history.push('/'));
                 }
               });
             }} block loading={isFetching} className="login-form-button">
